@@ -2,7 +2,18 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- 苹果 iOS 专属配置 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="数学挑战">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <!-- 安卓 Chrome 专属配置 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4CAF50">
+    
     <title>100以内加减法自适应挑战</title>
     <style>
         :root {
@@ -170,6 +181,7 @@
                 this.score = 0;
                 this.streak = 0; // 连续答对次数
                 this.wrongStreak = 0; // 连续答错次数
+                this.history = []; // 存储历史记录
                 this.currentProblem = null;
 
                 // DOM 元素
@@ -186,6 +198,7 @@
                     history: document.getElementById('history-list')
                 };
 
+                this.loadProgress(); // 加载进度
                 this.init();
             }
 
@@ -196,6 +209,44 @@
                     if (e.key === 'Enter') this.checkAnswer();
                 });
                 this.updateStats();
+            }
+
+            // 加载进度
+            loadProgress() {
+                const savedData = localStorage.getItem('mathGameProgress');
+                if (savedData) {
+                    try {
+                        const data = JSON.parse(savedData);
+                        this.level = data.level || 1;
+                        this.score = data.score || 0;
+                        this.streak = data.streak || 0;
+                        this.wrongStreak = data.wrongStreak || 0;
+                        this.history = data.history || [];
+                        
+                        // 恢复历史记录显示
+                        this.dom.history.innerHTML = ''; // 清空当前显示
+                        this.history.forEach(item => {
+                            const li = document.createElement('li');
+                            li.textContent = item.text;
+                            li.style.color = item.color;
+                            this.dom.history.appendChild(li); // 这里的顺序是旧的在下，新的在上吗？要注意保存时的顺序
+                        });
+                    } catch (e) {
+                        console.error('读取进度失败', e);
+                    }
+                }
+            }
+
+            // 保存进度
+            saveProgress() {
+                const data = {
+                    level: this.level,
+                    score: this.score,
+                    streak: this.streak,
+                    wrongStreak: this.wrongStreak,
+                    history: this.history
+                };
+                localStorage.setItem('mathGameProgress', JSON.stringify(data));
             }
 
             // 生成随机整数 [min, max]
@@ -299,6 +350,7 @@
                 
                 this.addHistory(isCorrect, userVal);
                 this.updateStats();
+                this.saveProgress(); // 每次答题后保存进度
                 
                 // 延时后生成新题目
                 setTimeout(() => {
@@ -349,10 +401,19 @@
                 const { num1, num2, operator, answer } = this.currentProblem;
                 const li = document.createElement('li');
                 const icon = isCorrect ? '✅' : '❌';
-                li.textContent = `${icon} ${num1} ${operator} ${num2} = ${userVal} (正确: ${answer})`;
+                const textContent = `${icon} ${num1} ${operator} ${num2} = ${userVal} (正确: ${answer})`;
+                
+                li.textContent = textContent;
                 li.style.color = isCorrect ? 'green' : 'red';
                 
                 this.dom.history.prepend(li);
+
+                // 保存到数据中
+                this.history.unshift({
+                    text: textContent,
+                    color: li.style.color
+                });
+                if (this.history.length > 20) this.history.pop(); // 限制保存数量
             }
         }
 
