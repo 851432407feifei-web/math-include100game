@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100以内加减法自适应挑战</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --error-color: #f44336;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        header h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .problem-box {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        #answer-input {
+            font-size: 2.5rem;
+            width: 120px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 5px;
+        }
+
+        #answer-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .feedback-msg {
+            height: 30px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .feedback-success { color: var(--primary-color); }
+        .feedback-error { color: var(--error-color); }
+
+        .history-log {
+            margin-top: 2rem;
+            text-align: left;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        .history-log h3 {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        #history-list {
+            list-style: none;
+            padding: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        #history-list li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧮 数学小天才挑战</h1>
+            <div class="stats-bar">
+                <div class="stat-item">等级: <span id="level">1</span></div>
+                <div class="stat-item">得分: <span id="score">0</span></div>
+                <div class="stat-item">连对: <span id="streak">0</span></div>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <div class="problem-box">
+                <span id="num1">?</span>
+                <span id="operator">+</span>
+                <span id="num2">?</span>
+                <span>=</span>
+                <input type="number" id="answer-input" placeholder="?" autocomplete="off">
+            </div>
+            
+            <button id="submit-btn">提交答案</button>
+            
+            <div id="feedback" class="feedback-msg"></div>
+        </main>
+
+        <div class="history-log">
+            <h3>📝 答题记录</h3>
+            <ul id="history-list">
+                <!-- 历史记录将在这里显示 -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        class MathGame {
+            constructor() {
+                this.level = 1;
+                this.score = 0;
+                this.streak = 0; // 连续答对次数
+                this.wrongStreak = 0; // 连续答错次数
+                this.currentProblem = null;
+
+                // DOM 元素
+                this.dom = {
+                    num1: document.getElementById('num1'),
+                    num2: document.getElementById('num2'),
+                    operator: document.getElementById('operator'),
+                    input: document.getElementById('answer-input'),
+                    submitBtn: document.getElementById('submit-btn'),
+                    feedback: document.getElementById('feedback'),
+                    level: document.getElementById('level'),
+                    score: document.getElementById('score'),
+                    streak: document.getElementById('streak'),
+                    history: document.getElementById('history-list')
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.generateProblem();
+                this.dom.submitBtn.addEventListener('click', () => this.checkAnswer());
+                this.dom.input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.checkAnswer();
+                });
+                this.updateStats();
+            }
+
+            // 生成随机整数 [min, max]
+            randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            generateProblem() {
+                let num1, num2, operator, answer;
+                const isAddition = Math.random() > 0.5; // 50% 概率加法或减法
+                operator = isAddition ? '+' : '-';
+
+                // 自适应难度逻辑
+                switch(this.level) {
+                    case 1: // 10以内 (初级)
+                        if (isAddition) {
+                            num1 = this.randomInt(0, 5);
+                            num2 = this.randomInt(0, 10 - num1);
+                        } else {
+                            num1 = this.randomInt(1, 10);
+                            num2 = this.randomInt(0, num1);
+                        }
+                        break;
+
+                    case 2: // 20以内，不进位/不退位
+                        if (isAddition) {
+                            num1 = this.randomInt(1, 10);
+                            num2 = this.randomInt(1, 20 - num1); 
+                        } else {
+                            num1 = this.randomInt(2, 20);
+                            num2 = this.randomInt(1, num1);
+                        }
+                        break;
+                    
+                    case 3: // 100以内，不进位/不退位 (中级)
+                        if (isAddition) {
+                            // 个位不进位: 个位和 <= 9
+                            let u1 = this.randomInt(0, 9);
+                            let u2 = this.randomInt(0, 9 - u1);
+                            // 十位: 十位和 <= 9
+                            let t1 = this.randomInt(1, 8);
+                            let t2 = this.randomInt(0, 8 - t1);
+                            num1 = t1 * 10 + u1;
+                            num2 = t2 * 10 + u2;
+                        } else {
+                            // 个位不退位: u1 >= u2
+                            let u1 = this.randomInt(0, 9);
+                            let u2 = this.randomInt(0, u1);
+                            let t1 = this.randomInt(1, 9);
+                            let t2 = this.randomInt(0, t1);
+                            num1 = t1 * 10 + u1;
+                            num2 = t2 * 10 + u2;
+                        }
+                        break;
+
+                    case 4: // 100以内，强制进位/退位 (高级)
+                    default:
+                        if (isAddition) {
+                            // 制造进位: 个位和 >= 10
+                            let u1 = this.randomInt(1, 9);
+                            let u2 = this.randomInt(10 - u1, 9);
+                            let t1 = this.randomInt(1, 7); // 保证不超过100
+                            let t2 = this.randomInt(0, 8 - t1);
+                            num1 = t1 * 10 + u1;
+                            num2 = t2 * 10 + u2;
+                        } else {
+                            // 制造退位: u1 < u2
+                            let u1 = this.randomInt(0, 8);
+                            let u2 = this.randomInt(u1 + 1, 9);
+                            let t1 = this.randomInt(2, 9);
+                            let t2 = this.randomInt(0, t1 - 1);
+                            num1 = t1 * 10 + u1;
+                            num2 = t2 * 10 + u2;
+                        }
+                        break;
+                }
+
+                // 计算正确答案
+                answer = isAddition ? num1 + num2 : num1 - num2;
+                this.currentProblem = { num1, num2, operator, answer };
+                
+                // 更新 UI
+                this.dom.num1.textContent = num1;
+                this.dom.num2.textContent = num2;
+                this.dom.operator.textContent = operator;
+                this.dom.input.value = '';
+                this.dom.input.focus();
+            }
+
+            checkAnswer() {
+                const userVal = parseInt(this.dom.input.value);
+                if (isNaN(userVal)) return;
+
+                const isCorrect = userVal === this.currentProblem.answer;
+                
+                if (isCorrect) {
+                    this.handleCorrect();
+                } else {
+                    this.handleIncorrect();
+                }
+                
+                this.addHistory(isCorrect, userVal);
+                this.updateStats();
+                
+                // 延时后生成新题目
+                setTimeout(() => {
+                    this.dom.feedback.textContent = '';
+                    this.dom.feedback.className = 'feedback-msg';
+                    this.generateProblem();
+                }, 1500);
+            }
+
+            handleCorrect() {
+                this.score += 10 + (this.level * 2); // 难度越高分越高
+                this.streak++;
+                this.wrongStreak = 0;
+                
+                this.dom.feedback.textContent = '🎉 回答正确！真棒！';
+                this.dom.feedback.className = 'feedback-msg feedback-success';
+
+                // 晋级检查
+                if (this.streak >= 5 && this.level < 4) {
+                    this.level++;
+                    this.streak = 0;
+                    this.dom.feedback.textContent += ' (难度升级！)';
+                }
+            }
+
+            handleIncorrect() {
+                this.streak = 0;
+                this.wrongStreak++;
+                
+                this.dom.feedback.textContent = `❌ 哎呀，正确答案是 ${this.currentProblem.answer}`;
+                this.dom.feedback.className = 'feedback-msg feedback-error';
+
+                // 降级检查
+                if (this.wrongStreak >= 3 && this.level > 1) {
+                    this.level--;
+                    this.wrongStreak = 0;
+                    this.dom.feedback.textContent += ' (难度降低，加油！)';
+                }
+            }
+
+            updateStats() {
+                this.dom.level.textContent = this.level;
+                this.dom.score.textContent = this.score;
+                this.dom.streak.textContent = this.streak;
+            }
+
+            addHistory(isCorrect, userVal) {
+                const { num1, num2, operator, answer } = this.currentProblem;
+                const li = document.createElement('li');
+                const icon = isCorrect ? '✅' : '❌';
+                li.textContent = `${icon} ${num1} ${operator} ${num2} = ${userVal} (正确: ${answer})`;
+                li.style.color = isCorrect ? 'green' : 'red';
+                
+                this.dom.history.prepend(li);
+            }
+        }
+
+        // 启动游戏
+        window.addEventListener('DOMContentLoaded', () => {
+            new MathGame();
+        });
+    </script>
+</body>
+</html>
