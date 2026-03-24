@@ -245,6 +245,239 @@
             margin-right: 10px;
             font-size: 1.3rem;
         }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 1.2rem;
+        }
+
+        .history-header h3 {
+            margin: 0;
+        }
+
+        .detail-btn {
+            appearance: none;
+            border: 2px solid rgba(126, 200, 227, 0.35);
+            background: rgba(126, 200, 227, 0.12);
+            color: var(--text-main);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .detail-btn:active {
+            transform: translateY(1px);
+        }
+
+        #history-dialog {
+            border: none;
+            border-radius: 18px;
+            padding: 0;
+            width: min(520px, calc(100vw - 32px));
+            box-shadow: 0 24px 50px rgba(0,0,0,0.18);
+        }
+
+        #history-dialog::backdrop {
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(2px);
+        }
+
+        .history-dialog-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 18px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+        }
+
+        .history-dialog-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .history-dialog-close {
+            appearance: none;
+            border: 2px solid rgba(0,0,0,0.08);
+            background: #fafafa;
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        #history-detail-list {
+            list-style: none;
+            margin: 0;
+            padding: 14px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: min(70vh, 520px);
+            overflow: auto;
+        }
+
+        #history-detail-list li {
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            background-color: #fcfcfc;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        #history-detail-list li[data-status="correct"] {
+            border-color: rgba(46, 204, 113, 0.3);
+            color: #27ae60 !important;
+            background-color: #f0fdf4;
+        }
+
+        #history-detail-list li[data-status="incorrect"] {
+            border-color: rgba(255, 107, 107, 0.3);
+            color: #e74c3c !important;
+            background-color: #fef2f2;
+            opacity: 0.85;
+        }
+
+        .history-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .explain-btn {
+            flex: 0 0 auto;
+            margin-left: auto;
+            appearance: none;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .explain-btn:hover {
+            color: var(--primary-color);
+            background: rgba(255, 179, 71, 0.1);
+        }
+
+        .explain-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        #explain-dialog {
+            border: none;
+            border-radius: 18px;
+            padding: 0;
+            width: min(720px, calc(100vw - 32px));
+            box-shadow: 0 24px 50px rgba(0,0,0,0.18);
+        }
+
+        #explain-dialog::backdrop {
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(2px);
+        }
+
+        .explain-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 18px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+        }
+
+        .explain-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .explain-close {
+            appearance: none;
+            border: 2px solid rgba(0,0,0,0.08);
+            background: #fafafa;
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        #explain-content {
+            padding: 14px 18px 18px;
+            max-height: min(72vh, 560px);
+            overflow: auto;
+        }
+
+        .explain-section {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 16px;
+            padding: 14px 14px;
+            margin-bottom: 12px;
+        }
+
+        .explain-section-title {
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .explain-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .explain-note {
+            color: var(--text-light);
+            font-weight: 800;
+            margin-top: 8px;
+        }
+
+        .speak-btn {
+            appearance: none;
+            border: 2px solid rgba(46, 204, 113, 0.25);
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 12px;
+            padding: 8px 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 900;
+        }
+
+        .mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            white-space: pre;
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 12px 14px;
+            border: 1px solid #eee;
+        }
     </style>
 </head>
 <body>
@@ -271,7 +504,10 @@
         </main>
 
         <div class="history-log">
-            <h3>📝 答题记录</h3>
+            <div class="history-header">
+                <h3>📝 答题记录</h3>
+                <button id="history-detail-btn" class="detail-btn" type="button" style="display:none;" onclick="window.location.href='history.html'">更多</button>
+            </div>
             <ul id="history-list">
                 <!-- 历史记录将在这里显示 -->
             </ul>
@@ -288,6 +524,25 @@
                 this.history = []; // 存储历史记录
                 this.currentProblem = null;
 
+                this.usedProblems = {
+                    1: new Set(),
+                    2: new Set(),
+                    3: new Set(),
+                    4: new Set(),
+                    5: new Set(),
+                    6: new Set(),
+                    7: new Set()
+                };
+                this.problemLimits = {
+                    1: 132,
+                    2: 0,
+                    3: 0,
+                    4: 0,
+                    5: 10302,
+                    6: 0,
+                    7: 0
+                };
+
                 // DOM 元素
                 this.dom = {
                     num1: document.getElementById('num1'),
@@ -298,7 +553,8 @@
                     level: document.getElementById('level'),
                     score: document.getElementById('score'),
                     streak: document.getElementById('streak'),
-                    history: document.getElementById('history-list')
+                    history: document.getElementById('history-list'),
+                    historyDetailBtn: document.getElementById('history-detail-btn')
                 };
 
                 this.isProcessing = false; // 防止重复提交标志
@@ -319,7 +575,7 @@
 
             init() {
                 this.generateProblem();
-                
+
                 // 监听输入事件自动提交
                 this.dom.input.addEventListener('input', () => {
                     this.autoCheckAnswer();
@@ -332,10 +588,22 @@
                         this.checkAnswer(true);
                     }
                 });
-                
+
+                const onHistoryClick = (e) => {
+                    const btn = e.target && e.target.closest ? e.target.closest('button[data-action="explain"]') : null;
+                    if (!btn) return;
+                    const idx = parseInt(btn.getAttribute('data-index'));
+                    if (Number.isNaN(idx)) return;
+                    
+                    // 跳转到独立的错题解析页面
+                    window.location.href = `explain.html?idx=${idx}`;
+                };
+
+                if (this.dom.history) this.dom.history.addEventListener('click', onHistoryClick);
+
                 // 页面加载自动获取焦点
                 this.dom.input.focus();
-                
+
                 this.updateStats();
             }
 
@@ -350,21 +618,15 @@
                         this.streak = data.streak || 0;
                         this.wrongStreak = data.wrongStreak || 0;
                         this.history = data.history || [];
+
+                        if (data.usedProblems) {
+                            Object.keys(data.usedProblems).forEach(level => {
+                                const arr = data.usedProblems[level];
+                                if (Array.isArray(arr)) this.usedProblems[level] = new Set(arr);
+                            });
+                        }
                         
-                        // 恢复历史记录显示
-                        this.dom.history.innerHTML = ''; 
-                        this.history.forEach(item => {
-                            const li = document.createElement('li');
-                            // 兼容旧版本数据结构
-                            if(item.html) {
-                                li.innerHTML = item.html;
-                                li.setAttribute('data-status', item.status);
-                            } else {
-                                li.textContent = item.text;
-                                li.style.color = item.color;
-                            }
-                            this.dom.history.appendChild(li); 
-                        });
+                        this.renderHistory();
                     } catch (e) {
                         console.error('读取进度失败', e);
                     }
@@ -373,12 +635,18 @@
 
             // 保存进度
             saveProgress() {
+                const usedProblems = {};
+                Object.keys(this.usedProblems).forEach(level => {
+                    usedProblems[level] = Array.from(this.usedProblems[level]);
+                });
+
                 const data = {
                     level: this.level,
                     score: this.score,
                     streak: this.streak,
                     wrongStreak: this.wrongStreak,
-                    history: this.history
+                    history: this.history,
+                    usedProblems
                 };
                 localStorage.setItem('mathGameProgress', JSON.stringify(data));
             }
@@ -388,88 +656,141 @@
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
-            generateProblem() {
-                let num1, num2, operator, answer;
-                const isAddition = Math.random() > 0.5; // 50% 概率加法或减法
-                operator = isAddition ? '+' : '-';
+            pickCandidateProblem() {
+                const level = this.level;
 
-                // 自适应难度逻辑
-                switch(this.level) {
-                    case 1: // 10以内 (初级)
-                        if (isAddition) {
-                            num1 = this.randomInt(0, 5);
-                            num2 = this.randomInt(0, 10 - num1);
-                        } else {
-                            num1 = this.randomInt(1, 10);
-                            num2 = this.randomInt(0, num1);
-                        }
-                        break;
+                if (level === 1) {
+                    const isAddition = Math.random() > 0.5;
+                    if (isAddition) {
+                        const num1 = this.randomInt(0, 10);
+                        const num2 = this.randomInt(0, 10 - num1);
+                        return { num1, num2, operator: '+', answer: num1 + num2 };
+                    }
 
-                    case 2: // 20以内，不进位/不退位
-                        if (isAddition) {
-                            num1 = this.randomInt(1, 10);
-                            num2 = this.randomInt(1, 20 - num1); 
-                        } else {
-                            num1 = this.randomInt(2, 20);
-                            num2 = this.randomInt(1, num1);
-                        }
-                        break;
-                    
-                    case 3: // 100以内，不进位/不退位 (中级)
-                        if (isAddition) {
-                            // 个位不进位: 个位和 <= 9
-                            let u1 = this.randomInt(0, 9);
-                            let u2 = this.randomInt(0, 9 - u1);
-                            // 十位: 十位和 <= 9
-                            let t1 = this.randomInt(1, 8);
-                            let t2 = this.randomInt(0, 8 - t1);
-                            num1 = t1 * 10 + u1;
-                            num2 = t2 * 10 + u2;
-                        } else {
-                            // 个位不退位: u1 >= u2
-                            let u1 = this.randomInt(0, 9);
-                            let u2 = this.randomInt(0, u1);
-                            let t1 = this.randomInt(1, 9);
-                            let t2 = this.randomInt(0, t1);
-                            num1 = t1 * 10 + u1;
-                            num2 = t2 * 10 + u2;
-                        }
-                        break;
-
-                    case 4: // 100以内，强制进位/退位 (高级)
-                    default:
-                        if (isAddition) {
-                            // 制造进位: 个位和 >= 10
-                            let u1 = this.randomInt(1, 9);
-                            let u2 = this.randomInt(10 - u1, 9);
-                            let t1 = this.randomInt(1, 7); // 保证不超过100
-                            let t2 = this.randomInt(0, 8 - t1);
-                            num1 = t1 * 10 + u1;
-                            num2 = t2 * 10 + u2;
-                        } else {
-                            // 制造退位: u1 < u2
-                            let u1 = this.randomInt(0, 8);
-                            let u2 = this.randomInt(u1 + 1, 9);
-                            let t1 = this.randomInt(2, 9);
-                            let t2 = this.randomInt(0, t1 - 1);
-                            num1 = t1 * 10 + u1;
-                            num2 = t2 * 10 + u2;
-                        }
-                        break;
+                    const num1 = this.randomInt(0, 10);
+                    const num2 = this.randomInt(0, num1);
+                    return { num1, num2, operator: '-', answer: num1 - num2 };
                 }
 
-                // 计算正确答案
-                answer = isAddition ? num1 + num2 : num1 - num2;
-                this.currentProblem = { num1, num2, operator, answer };
-                
-                // 更新 UI
-                this.dom.num1.textContent = num1;
-                this.dom.num2.textContent = num2;
-                this.dom.operator.textContent = operator;
+                if (level === 2) {
+                    const isAddition = Math.random() > 0.5;
+
+                    for (let i = 0; i < 160; i++) {
+                        if (isAddition) {
+                            const num1 = this.randomInt(0, 20);
+                            const num2 = this.randomInt(0, 20 - num1);
+                            if ((num1 % 10) + (num2 % 10) > 9) continue;
+                            return { num1, num2, operator: '+', answer: num1 + num2 };
+                        }
+
+                        const num1 = this.randomInt(0, 20);
+                        const num2 = this.randomInt(0, num1);
+                        if ((num1 % 10) < (num2 % 10)) continue;
+                        return { num1, num2, operator: '-', answer: num1 - num2 };
+                    }
+
+                    const num1 = 10;
+                    const num2 = 0;
+                    return { num1, num2, operator: isAddition ? '+' : '-', answer: 10 };
+                }
+
+                if (level === 3) {
+                    for (let i = 0; i < 200; i++) {
+                        const num1 = this.randomInt(0, 19);
+                        const num2 = this.randomInt(0, 20 - num1);
+                        if (num1 === 0 || num2 === 0) continue;
+                        if ((num1 % 10) + (num2 % 10) < 10) continue;
+                        return { num1, num2, operator: '+', answer: num1 + num2 };
+                    }
+
+                    return { num1: 9, num2: 1, operator: '+', answer: 10 };
+                }
+
+                if (level === 4) {
+                    for (let i = 0; i < 200; i++) {
+                        const num1 = this.randomInt(10, 20);
+                        const num2 = this.randomInt(1, num1);
+                        if ((num1 % 10) >= (num2 % 10)) continue;
+                        return { num1, num2, operator: '-', answer: num1 - num2 };
+                    }
+
+                    return { num1: 10, num2: 1, operator: '-', answer: 9 };
+                }
+
+                if (level === 5) {
+                    const isAddition = Math.random() > 0.5;
+                    if (isAddition) {
+                        const num1 = this.randomInt(0, 100);
+                        const num2 = this.randomInt(0, 100 - num1);
+                        return { num1, num2, operator: '+', answer: num1 + num2 };
+                    }
+
+                    const num1 = this.randomInt(0, 100);
+                    const num2 = this.randomInt(0, num1);
+                    return { num1, num2, operator: '-', answer: num1 - num2 };
+                }
+
+                if (level === 6) {
+                    for (let i = 0; i < 260; i++) {
+                        const num1 = this.randomInt(0, 99);
+                        const num2 = this.randomInt(0, 100 - num1);
+                        if (num1 === 0 || num2 === 0) continue;
+                        if ((num1 % 10) + (num2 % 10) < 10) continue;
+                        return { num1, num2, operator: '+', answer: num1 + num2 };
+                    }
+
+                    return { num1: 9, num2: 1, operator: '+', answer: 10 };
+                }
+
+                for (let i = 0; i < 260; i++) {
+                    const num1 = this.randomInt(10, 100);
+                    const num2 = this.randomInt(1, num1);
+                    if ((num1 % 10) >= (num2 % 10)) continue;
+                    return { num1, num2, operator: '-', answer: num1 - num2 };
+                }
+
+                return { num1: 10, num2: 1, operator: '-', answer: 9 };
+            }
+
+            generateProblem() {
+                const usedSet = this.usedProblems[this.level] || (this.usedProblems[this.level] = new Set());
+
+                let candidate = null;
+                let key = '';
+                let accepted = false;
+
+                for (let cycle = 0; cycle < 2 && !accepted; cycle++) {
+                    const limit = this.problemLimits[this.level] || 0;
+                    if (limit && usedSet.size >= limit) usedSet.clear();
+
+                    for (let i = 0; i < 220; i++) {
+                        candidate = this.pickCandidateProblem();
+                        key = `${candidate.operator}:${candidate.num1}:${candidate.num2}`;
+
+                        if (!usedSet.has(key)) {
+                            usedSet.add(key);
+                            accepted = true;
+                            break;
+                        }
+                    }
+
+                    if (!accepted) usedSet.clear();
+                }
+
+                if (!accepted) {
+                    candidate = this.pickCandidateProblem();
+                    key = `${candidate.operator}:${candidate.num1}:${candidate.num2}`;
+                    usedSet.add(key);
+                }
+
+                this.currentProblem = candidate;
+
+                this.dom.num1.textContent = candidate.num1;
+                this.dom.num2.textContent = candidate.num2;
+                this.dom.operator.textContent = candidate.operator;
                 this.dom.input.value = '';
                 this.dom.input.disabled = false;
-                
-                // 强制焦点
+
                 setTimeout(() => this.dom.input.focus(), 10);
                 this.isProcessing = false;
             }
@@ -537,7 +858,7 @@
                 this.dom.feedback.className = 'feedback-msg feedback-success';
 
                 // 晋级检查
-                if (this.streak >= 5 && this.level < 4) {
+                if (this.streak >= 5 && this.level < 7) {
                     this.level++;
                     this.streak = 0;
                     this.dom.feedback.textContent += ' (难度升级！)';
@@ -565,25 +886,321 @@
                 this.dom.streak.textContent = this.streak;
             }
 
+            explainIconSvg() {
+                return '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 3h8a3 3 0 0 1 3 3v14a1 1 0 0 1-1.6.8L12 17.5 7.6 20.8A1 1 0 0 1 6 20V6a3 3 0 0 1 1-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8h6M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+            }
+
+            renderHistoryItem(item, index) {
+                const li = document.createElement('li');
+
+                if (item && typeof item === 'object' && item.html) {
+                    li.innerHTML = item.html;
+                    if (item.status) li.setAttribute('data-status', item.status);
+                    return li;
+                }
+
+                if (!item || typeof item !== 'object') {
+                    li.textContent = String(item ?? '');
+                    return li;
+                }
+
+                const isCorrect = item.isCorrect === true;
+                const status = isCorrect ? 'correct' : 'incorrect';
+                li.setAttribute('data-status', status);
+
+                const text = document.createElement('div');
+                text.className = 'history-text';
+                const icon = isCorrect ? '<span class="history-icon">🥳</span>' : '<span class="history-icon">🥺</span>';
+                text.innerHTML = `${icon} ${item.num1} ${item.operator} ${item.num2} = ${item.userVal} (正确: ${item.answer})`;
+                li.appendChild(text);
+
+                if (!isCorrect) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'explain-btn';
+                    btn.setAttribute('data-action', 'explain');
+                    btn.setAttribute('data-index', String(index));
+                    btn.setAttribute('aria-label', '错题解析');
+                    btn.innerHTML = this.explainIconSvg();
+                    li.appendChild(btn);
+                }
+
+                return li;
+            }
+
+            renderHistory() {
+                const items = Array.isArray(this.history) ? this.history : [];
+                // 主页最多展示 6 条，避免撑破一屏
+                const mainMax = 6;
+
+                if (this.dom.history) {
+                    this.dom.history.innerHTML = '';
+                    items.slice(0, mainMax).forEach((item, idx) => {
+                        this.dom.history.appendChild(this.renderHistoryItem(item, idx));
+                    });
+                }
+
+                // 如果历史记录超过 6 条，显示“详细”按钮；否则隐藏
+                if (this.dom.historyDetailBtn) {
+                    this.dom.historyDetailBtn.style.display = items.length > mainMax ? 'inline-flex' : 'none';
+                }
+            }
+
+            openExplainDialog(index) {
+                const item = Array.isArray(this.history) ? this.history[index] : null;
+                if (!item || (item.isCorrect !== false && item.status !== 'incorrect')) return;
+
+                if (!this.dom.explainDialog || !this.dom.explainContent) return;
+
+                this.dom.explainContent.innerHTML = '';
+                this.dom.explainContent.appendChild(this.buildExplainDom(item));
+
+                if (typeof this.dom.explainDialog.showModal === 'function') {
+                    if (!this.dom.explainDialog.open) this.dom.explainDialog.showModal();
+                } else {
+                    this.dom.explainDialog.setAttribute('open', '');
+                }
+            }
+
+            closeExplainDialog() {
+                if (!this.dom.explainDialog) return;
+
+                if (typeof this.dom.explainDialog.close === 'function') {
+                    if (this.dom.explainDialog.open) this.dom.explainDialog.close();
+                } else {
+                    this.dom.explainDialog.removeAttribute('open');
+                }
+            }
+
+            speak(text) {
+                if (!('speechSynthesis' in window) || !window.SpeechSynthesisUtterance) return;
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'zh-CN';
+                u.rate = 0.95;
+                u.pitch = 1.05;
+                window.speechSynthesis.speak(u);
+            }
+
+            stickSvg(count, size = 16) {
+                const w = Math.max(1, count) * (size + 4) + 8;
+                const h = size + 10;
+                const sticks = Array.from({ length: count }).map((_, i) => {
+                    const x = 6 + i * (size + 4);
+                    return `<rect x="${x}" y="6" width="${size}" height="${size}" rx="6" fill="url(#wood)" stroke="rgba(0,0,0,0.12)"/>`;
+                }).join('');
+                return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c28b"/><stop offset="0.55" stop-color="#eaa66a"/><stop offset="1" stop-color="#f2bb82"/></linearGradient></defs>${sticks}</svg>`;
+            }
+
+            bundleSvg(tens, ones) {
+                const bundle = (tensCount) => {
+                    if (tensCount <= 0) return '';
+                    const inner = this.stickSvg(10, 10).replace('<svg', '<svg style="display:block"').replace(/width="\d+" height="\d+"/, 'width="148" height="28"');
+                    const bundles = Array.from({ length: tensCount }).map(() => `<div style="display:inline-block;padding:6px 8px;border-radius:14px;border:1px solid #eee;background:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.04);position:relative"><div style="position:absolute;left:50%;top:4px;transform:translateX(-50%);width:22px;height:20px;border-radius:10px;background:rgba(126,200,227,0.25);border:1px solid rgba(126,200,227,0.25)"></div>${inner}</div>`).join('');
+                    return `<div style="display:flex;gap:10px;flex-wrap:wrap">${bundles}</div>`;
+                };
+
+                const loose = ones > 0 ? `<div style="margin-top:10px">${this.stickSvg(ones, 16)}</div>` : '';
+                return `<div>${bundle(tens)}${loose}</div>`;
+            }
+
+            vertical(op, a, b) {
+                const w = Math.max(String(a).length, String(b).length) + 2;
+                const A = String(a).padStart(w);
+                const B = (op + String(b)).padStart(w);
+                const line = '-'.repeat(w);
+                const res = op === '+' ? a + b : a - b;
+                const R = String(res).padStart(w);
+                return `${A}\n${B}\n${line}\n${R}`;
+            }
+
+            buildExplainDom(item) {
+                const wrap = document.createElement('div');
+
+                const eq = document.createElement('div');
+                eq.className = 'explain-section';
+                const title = document.createElement('div');
+                title.className = 'explain-section-title';
+                title.textContent = `题目：${item.num1} ${item.operator} ${item.num2} = ?  你的答案：${item.userVal}`;
+                eq.appendChild(title);
+                const note = document.createElement('div');
+                note.className = 'explain-note';
+                note.textContent = `正确答案：${item.answer}`;
+                eq.appendChild(note);
+                wrap.appendChild(eq);
+
+                const level = item.level || 1;
+
+                if (level === 1) {
+                    const sec = document.createElement('div');
+                    sec.className = 'explain-section';
+                    const t = document.createElement('div');
+                    t.className = 'explain-section-title';
+                    t.textContent = '用小棒/积木来理解';
+                    sec.appendChild(t);
+
+                    const row = document.createElement('div');
+                    row.className = 'explain-row';
+
+                    const left = document.createElement('div');
+                    left.innerHTML = `<div class="explain-note">表示 ${item.num1}</div>${this.stickSvg(item.num1)}`;
+                    const right = document.createElement('div');
+                    right.innerHTML = `<div class="explain-note">表示 ${item.num2}</div>${this.stickSvg(item.num2)}`;
+                    row.appendChild(left);
+                    row.appendChild(right);
+                    sec.appendChild(row);
+
+                    const row2 = document.createElement('div');
+                    row2.className = 'explain-row';
+                    const out = document.createElement('div');
+                    const result = item.operator === '+' ? item.num1 + item.num2 : item.num1 - item.num2;
+                    out.innerHTML = `<div class="explain-note">合起来/拿走后，剩下</div>${this.stickSvg(Math.max(0, result))}`;
+                    row2.appendChild(out);
+                    sec.appendChild(row2);
+
+                    wrap.appendChild(sec);
+                    return wrap;
+                }
+
+                if (level >= 2 && level <= 4) {
+                    const sec1 = document.createElement('div');
+                    sec1.className = 'explain-section';
+                    const t1 = document.createElement('div');
+                    t1.className = 'explain-section-title';
+                    t1.textContent = '用“小棒捆”和散装小棒表示十位和个位';
+                    sec1.appendChild(t1);
+
+                    const aT = Math.floor(item.num1 / 10);
+                    const aU = item.num1 % 10;
+                    const bT = Math.floor(item.num2 / 10);
+                    const bU = item.num2 % 10;
+
+                    const row = document.createElement('div');
+                    row.className = 'explain-row';
+                    const A = document.createElement('div');
+                    A.innerHTML = `<div class="explain-note">第一个数：${item.num1}</div>${this.bundleSvg(aT, aU)}`;
+                    const B = document.createElement('div');
+                    B.innerHTML = `<div class="explain-note">第二个数：${item.num2}</div>${this.bundleSvg(bT, bU)}`;
+                    row.appendChild(A);
+                    row.appendChild(B);
+                    sec1.appendChild(row);
+                    wrap.appendChild(sec1);
+
+                    if (level === 3) {
+                        const sec2 = document.createElement('div');
+                        sec2.className = 'explain-section';
+                        const t2 = document.createElement('div');
+                        t2.className = 'explain-section-title';
+                        t2.textContent = '凑十法（满10根就捆成一捆）';
+                        sec2.appendChild(t2);
+
+                        const need = 10 - aU;
+                        const taken = Math.min(need, bU);
+                        const afterU1 = aU + taken;
+                        const leftU2 = bU - taken;
+                        const carry = afterU1 >= 10 ? 1 : 0;
+                        const resT = aT + bT + carry;
+                        const resU = (afterU1 % 10) + leftU2;
+
+                        const row2 = document.createElement('div');
+                        row2.className = 'explain-row';
+                        const step = document.createElement('div');
+                        step.innerHTML = `<div class="explain-note">先把第二个数的 ${taken} 根小棒拿来补满10根</div>${this.bundleSvg(aT, aU)}<div style="height:10px"></div>${this.bundleSvg(bT, bU)}`;
+                        row2.appendChild(step);
+                        sec2.appendChild(row2);
+
+                        const speak = document.createElement('button');
+                        speak.type = 'button';
+                        speak.className = 'speak-btn';
+                        speak.textContent = '🔊 满10根，10根变一捆';
+                        speak.addEventListener('click', () => this.speak('满10根，10根变一捆'));
+                        sec2.appendChild(speak);
+
+                        const out = document.createElement('div');
+                        out.style.marginTop = '12px';
+                        out.innerHTML = `<div class="explain-note">得到：${item.answer}</div>${this.bundleSvg(resT, resU)}`;
+                        sec2.appendChild(out);
+                        wrap.appendChild(sec2);
+                    }
+
+                    if (level === 4) {
+                        const sec2 = document.createElement('div');
+                        sec2.className = 'explain-section';
+                        const t2 = document.createElement('div');
+                        t2.className = 'explain-section-title';
+                        t2.textContent = '破十法（个位不够减，就拆开一捆变10根）';
+                        sec2.appendChild(t2);
+
+                        const borrow = aU < bU ? 1 : 0;
+                        const newT = aT - borrow;
+                        const newU = aU + (borrow ? 10 : 0);
+
+                        const row2 = document.createElement('div');
+                        row2.className = 'explain-row';
+                        const step = document.createElement('div');
+                        step.innerHTML = `<div class="explain-note">把 ${item.num1} 变成：${newT}捆 + ${newU}根</div>${this.bundleSvg(newT, newU)}`;
+                        row2.appendChild(step);
+                        sec2.appendChild(row2);
+
+                        const speak = document.createElement('button');
+                        speak.type = 'button';
+                        speak.className = 'speak-btn';
+                        speak.textContent = '🔊 个位不够减，拆开一捆变10根';
+                        speak.addEventListener('click', () => this.speak('个位不够减，拆开一捆变10根'));
+                        sec2.appendChild(speak);
+
+                        const out = document.createElement('div');
+                        out.style.marginTop = '12px';
+                        out.innerHTML = `<div class="explain-note">再减去 ${item.num2}，得到：${item.answer}</div>${this.bundleSvg(Math.floor(item.answer / 10), item.answer % 10)}`;
+                        sec2.appendChild(out);
+                        wrap.appendChild(sec2);
+                    }
+
+                    return wrap;
+                }
+
+                const sec = document.createElement('div');
+                sec.className = 'explain-section';
+                const t = document.createElement('div');
+                t.className = 'explain-section-title';
+                t.textContent = '竖式';
+                sec.appendChild(t);
+
+                const pre = document.createElement('div');
+                pre.className = 'mono';
+                pre.textContent = this.vertical(item.operator, item.num1, item.num2);
+                sec.appendChild(pre);
+
+                const extra = document.createElement('div');
+                extra.className = 'explain-note';
+                if (item.operator === '+') {
+                    const carry = (item.num1 % 10) + (item.num2 % 10) >= 10;
+                    extra.textContent = carry ? '个位相加满10，向十位进1。' : '先算个位，再算十位。';
+                } else {
+                    const borrow = (item.num1 % 10) < (item.num2 % 10);
+                    extra.textContent = borrow ? '个位不够减，向十位借1（变成个位+10）。' : '先算个位，再算十位。';
+                }
+                sec.appendChild(extra);
+                wrap.appendChild(sec);
+                return wrap;
+            }
+
             addHistory(isCorrect, userVal) {
                 const { num1, num2, operator, answer } = this.currentProblem;
-                const li = document.createElement('li');
-                
-                // 优化历史记录的 HTML 结构，使用自定义属性区分状态
-                const icon = isCorrect ? '<span class="history-icon">🥳</span>' : '<span class="history-icon">🥺</span>';
-                const textContent = `${icon} ${num1} ${operator} ${num2} = ${userVal} (正确: ${answer})`;
-                
-                li.innerHTML = textContent;
-                li.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
-                
-                this.dom.history.prepend(li);
-
-                // 保存到数据中
                 this.history.unshift({
-                    html: li.innerHTML,
-                    status: li.getAttribute('data-status')
+                    num1,
+                    num2,
+                    operator,
+                    answer,
+                    userVal,
+                    isCorrect: isCorrect === true,
+                    level: this.level,
+                    ts: Date.now()
                 });
-                if (this.history.length > 50) this.history.pop(); // 放宽限制，允许下拉显示更多
+
+                if (this.history.length > 50) this.history.pop();
+
+                this.renderHistory();
             }
         }
 

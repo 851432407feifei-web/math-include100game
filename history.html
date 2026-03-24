@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>所有答题记录</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-color: #F4F7F6;
+            --card-bg: #ffffff;
+            --primary-color: #FFB347;
+            --text-main: #4A4A4A;
+            --text-light: #9B9B9B;
+            --shadow-color: rgba(126, 200, 227, 0.2);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(136, 216, 176, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(136, 216, 176, 0.15) 1px, transparent 1px);
+            background-size: 30px 30px;
+            margin: 0;
+            padding: 20px 15px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px var(--shadow-color), 0 5px 15px rgba(0,0,0,0.03);
+            width: 100%;
+            max-width: 600px;
+            border: 4px solid #fff;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #eee;
+        }
+
+        .back-btn {
+            appearance: none;
+            border: 2px solid rgba(0,0,0,0.08);
+            background: #fafafa;
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-weight: 900;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 900;
+            flex: 1;
+            text-align: center;
+            padding-right: 70px;
+        }
+
+        #history-detail-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        #history-detail-list li {
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            background-color: #fcfcfc;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        #history-detail-list li[data-status="correct"] {
+            border-color: rgba(46, 204, 113, 0.3);
+            color: #27ae60 !important;
+            background-color: #f0fdf4;
+        }
+
+        #history-detail-list li[data-status="incorrect"] {
+            border-color: rgba(255, 107, 107, 0.3);
+            color: #e74c3c !important;
+            background-color: #fef2f2;
+            opacity: 0.85;
+        }
+
+        .history-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .history-icon {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        .explain-btn {
+            flex: 0 0 auto;
+            margin-left: auto;
+            appearance: none;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .explain-btn:hover {
+            color: var(--primary-color);
+            background: rgba(255, 179, 71, 0.1);
+        }
+
+        .explain-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .empty-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">⬅ 返回</a>
+            <h1>📝 所有答题记录</h1>
+        </div>
+        <ul id="history-detail-list"></ul>
+    </div>
+
+    <script>
+        class HistoryViewer {
+            constructor() {
+                this.listDom = document.getElementById('history-detail-list');
+                this.init();
+            }
+
+            explainIconSvg() {
+                return '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 3h8a3 3 0 0 1 3 3v14a1 1 0 0 1-1.6.8L12 17.5 7.6 20.8A1 1 0 0 1 6 20V6a3 3 0 0 1 1-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8h6M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+            }
+
+            init() {
+                try {
+                    const savedData = localStorage.getItem('mathGameProgress');
+                    if (!savedData) {
+                        this.listDom.innerHTML = '<div class="empty-msg">暂无答题记录</div>';
+                        return;
+                    }
+
+                    const data = JSON.parse(savedData);
+                    const history = data.history || [];
+
+                    if (history.length === 0) {
+                        this.listDom.innerHTML = '<div class="empty-msg">暂无答题记录</div>';
+                        return;
+                    }
+
+                    history.forEach((item, idx) => {
+                        this.listDom.appendChild(this.renderHistoryItem(item, idx));
+                    });
+
+                    // 绑定点击跳转解析事件
+                    this.listDom.addEventListener('click', (e) => {
+                        const btn = e.target && e.target.closest ? e.target.closest('button[data-action="explain"]') : null;
+                        if (!btn) return;
+                        const idx = parseInt(btn.getAttribute('data-index'));
+                        if (!Number.isNaN(idx)) {
+                            window.location.href = `explain.html?idx=${idx}`;
+                        }
+                    });
+
+                } catch (e) {
+                    console.error('读取记录失败', e);
+                    this.listDom.innerHTML = '<div class="empty-msg">读取数据失败</div>';
+                }
+            }
+
+            renderHistoryItem(item, index) {
+                const li = document.createElement('li');
+
+                if (item && typeof item === 'object' && item.html) {
+                    li.innerHTML = item.html;
+                    if (item.status) li.setAttribute('data-status', item.status);
+                    return li;
+                }
+
+                if (!item || typeof item !== 'object') {
+                    li.textContent = String(item ?? '');
+                    return li;
+                }
+
+                const isCorrect = item.isCorrect === true;
+                li.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+
+                const text = document.createElement('div');
+                text.className = 'history-text';
+                const icon = isCorrect ? '<span class="history-icon">🥳</span>' : '<span class="history-icon">🥺</span>';
+                text.innerHTML = `${icon} ${item.num1} ${item.operator} ${item.num2} = ${item.userVal} (正确: ${item.answer})`;
+                li.appendChild(text);
+
+                if (!isCorrect) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'explain-btn';
+                    btn.setAttribute('data-action', 'explain');
+                    btn.setAttribute('data-index', String(index));
+                    btn.setAttribute('aria-label', '错题解析');
+                    btn.innerHTML = this.explainIconSvg();
+                    li.appendChild(btn);
+                }
+
+                return li;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            new HistoryViewer();
+        });
+    </script>
+</body>
+</html>
